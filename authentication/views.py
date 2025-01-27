@@ -7,7 +7,7 @@ from .forms import UserAuthenticationForm
 from listing.models import Etudiant
 # Create your views here.
 
-def loginSite(request):
+def loginSite(request, msg=None):
     if request.method == 'POST':
         form = UserAuthenticationForm(request, data=request.POST)
         if form.is_valid():
@@ -33,4 +33,4 @@ def loginSite(request):
 
 def logoutSite(request):
     logout(request)
-    return redirect(request,'logout.html')
+    return render(request,'logout.html')

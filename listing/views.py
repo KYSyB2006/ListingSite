@@ -10,8 +10,8 @@ def EnseignantSpace(request):
         for matiere in matieres:
             classeProf = Dispenser.objects.filter(idMatiere=matiere.idMatiere).select_related('idClasse')
             classes.extend(classeProf)
-        for classe in classes:
-            print(classe.idClasse.Filiere+''+classe.idClasse.niveau)
+        # for classe in classes:
+        #     print(classe.idClasse.Filiere+''+classe.idClasse.niveau)
     return render(request, 'Enseignant/EnseignantSpace.html', {'user':request.user, 'classes': classes, 'matieres': matieres})
 
 def EtudiantSpace(request):

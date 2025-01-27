@@ -6,6 +6,7 @@ module.exports = {
     './listing/templates/**/*.html', // App listing
     './static/**/*.js',
     './node_modules/flyonui/dist/js/*.js',
+    './node_modules/flowbite/**/*.js',
   ],
   theme: {
     extend: {},
@@ -13,6 +14,7 @@ module.exports = {
   plugins: [
     require('flyonui'),
     require('flyonui/plugin'),
+    require('flowbite/plugin'),
   ],
 }
 
