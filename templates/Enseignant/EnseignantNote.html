@@ -1,64 +1,57 @@
 {% extends 'Enseignant/BaseProf.html' %}
 {% block content %}
 
+<div class="flex items-center justify-center h-screen">
+        <div class="relative flex flex-col m-6 overflow-x-auto shadow-md sm:rounded-lg ">
+                <div class="flex flex-col justify-right">
+                    <form method="post">
+                        {% csrf_token %}
+                        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">
+                                        Matricules
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Etudiants
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Notes
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Remarques
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for etudiant in etudiants %}
+                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600">
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            {{ etudiant.Matricule }}
+                                        </th>
+                                        <td class="px-6 py-4">
+                                        {{ etudiant.Nom }} {{ etudiant.Prenom }}
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <div class="relative z-0">
+                                                <input type="text" id="floating_standard" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            <div class="relative z-0">
+                                                <input type="text" id="floating_standard" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                 {%  endfor %}
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+        </div>
+
+</div>
 
 
 
-
-<!--          {% if user.is_authenticated %}-->
-<!--            {% for classe in classes %}-->
-<!--              <li>-->
-<!--                &lt;!&ndash; Bouton pour ouvrir un overlay pour chaque classe &ndash;&gt;-->
-<!--                <button type="button" class="btn btn-primary" aria-haspopup="dialog" aria-expanded="false" aria-controls="overlay-class-{{ classe.idClasse.idClasse }}" data-overlay="#overlay-class-{{ classe.idClasse.idClasse }}">-->
-<!--                  {{ classe.idClasse.Filiere }} {{ classe.idClasse.niveau }}-->
-<!--                </button>-->
-
-<!--                &lt;!&ndash; Overlay de la classe &ndash;&gt;-->
-<!--                <div id="overlay-class-{{ classe.idClasse.idClasse }}" class="overlay w-3/4 overlay-open:translate-x-0 drawer drawer-end h-auto hidden transition-all duration-300" role="dialog" tabindex="-1">-->
-<!--                  <div class="drawer-header py-4 px-6 border-b flex justify-between items-center">-->
-<!--                    <h3 class="drawer-title text-lg font-bold">{{ classe.idClasse.Filiere }} {{ classe.idClasse.niveau }}</h3>-->
-<!--                    <button type="button" class="btn btn-text btn-circle btn-sm absolute end-3 top-3" aria-label="Close" data-overlay="#overlay-class-{{ classe.idClasse.idClasse }}">-->
-<!--                      <span class="icon-[tabler&#45;&#45;x] size-5"></span>-->
-<!--                    </button>-->
-<!--                  </div>-->
-<!--                  <div class="drawer-body py-4 px-6 space-y-4">-->
-<!--                      <p class=" text-gray-600">-->
-<!--                          Informations spécifiques à {{ classe.idClasse.Filiere }} - {{ classe.idClasse.niveau }}.-->
-<!--                          Vous pouvez ajouter du texte, des images, ou d'autres éléments interactifs ici.-->
-<!--                      </p>-->
-<!--                  </div>-->
-
-<!--                  <div class="drawer-footer py-4 px-6 border-t flex justify-end space-x-2">-->
-<!--                      <button type="button" class="btn btn-soft btn-secondary" data-overlay="#overlay-class-{{ classe.idClasse.id }}">Close</button>-->
-<!--                      <button type="button" class="btn btn-primary">Save changes</button>-->
-<!--                  </div>-->
-
-
-
-<!--                </div>-->
-<!--              </li>-->
-<!--            {% endfor %}-->
-<!--          {% endif %}-->
-
-<!--          &lt;!&ndash; Divider: Account &ndash;&gt;-->
-<!--          <div class="divider text-base-content/50 py-6 after:border-0">Account</div>-->
-
-<!--          <li>-->
-<!--            <a href="{% url 'login' %}">-->
-<!--              <span class="icon-[tabler&#45;&#45;login] size-5"></span>-->
-<!--              Sign In-->
-<!--            </a>-->
-<!--          </li>-->
-<!--          <li>-->
-<!--            <a href="{% url 'logout' %}">-->
-<!--              <span class="icon-[tabler&#45;&#45;logout-2] size-5"></span>-->
-<!--              Sign Out-->
-<!--            </a>-->
-<!--          </li>-->
-
-<!--        </ul>-->
-<!--      </div>-->
-<!--    </aside>-->
-        <p> Hello professeur {{user.username}}  </p>
-        <p> Welcomme to your workspace at the IISTI listing site </p>
 {% endblock %}

@@ -20,7 +20,7 @@ def loginSite(request, msg=None):
                     login(request, user)
                     return redirect("EnseignantSpace")
                 elif user.role== 'ETUDIANT':
-                    etudiant= get_object_or_404(Etudiant,idUser=user.id)
+                    etudiant= get_object_or_404(Etudiant, Matricule=user.Matricule)
                     login(request, etudiant)
                     return redirect('EtudiantSpace')
                 else:

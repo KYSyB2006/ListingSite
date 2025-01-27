@@ -37,7 +37,6 @@ class Etudiant(models.Model):
         Masculin = 'M'
 
     idEtudiant = models.fields.AutoField(primary_key=True)
-    idUser = models.ForeignKey(Userlisting, on_delete=models.CASCADE, related_name='etudiants')
     Matricule = models.fields.CharField(  max_length=20)
     Nom = models.fields.CharField(max_length=50)
     Prenom = models.fields.CharField(max_length=50)

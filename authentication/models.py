@@ -10,6 +10,7 @@ class Userlisting(AbstractUser):
     )
     profile_photo = models.ImageField(upload_to="profile_pics",  verbose_name='Photo de profil', default='photo_profil_base.jpg')
     role = models.CharField(max_length=30, choices=ROLE_CHOICES, verbose_name='Role')
+    Matricule = models.CharField(max_length=30, default='iuc')
 
     def __str__(self):
         return self.username

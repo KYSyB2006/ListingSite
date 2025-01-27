@@ -8,7 +8,7 @@ from authentication.models import Userlisting
 @receiver(post_save, sender=Etudiant)
 def create_user_for_new_etudiant(sender, instance, created, **kwargs):
     if created:
-       userlisting = Userlisting.objects.create(username=instance.Nom+' '+instance.Prenom, role='Etudiant', profile_photo=instance.image)
+       userlisting = Userlisting.objects.create(username=instance.Nom+' '+instance.Prenom, role='Etudiant', profile_photo=instance.image, Matricule=instance.Matricule)
        userlisting.set_password(instance.Matricule)
        userlisting.save()
 
