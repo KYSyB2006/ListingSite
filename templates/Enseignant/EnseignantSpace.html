@@ -1,0 +1,71 @@
+{% extends 'Enseignant/BaseProf.html' %}
+{% block content %}
+    <button type="button" class="btn btn-text max-sm:btn-square sm:hidden" aria-haspopup="dialog" aria-expanded="false" aria-controls="sidebar-drawer" data-overlay="#sidebar-drawer">
+      <span class="icon-[tabler--menu-2] size-5"></span>
+    </button>
+
+    <!-- Sidebar -->
+    <aside id="sidebar-drawer" class="overlay sm:shadow-none overlay-open:translate-x-0 drawer drawer-start sm:flex sm:translate-x-0 transition duration-300" tabindex="-1">
+      <div class="drawer-body px-2 pt-4">
+        <ul class="menu space-y-0.5 [&_.nested-collapse-wrapper]:space-y-0.5 [&_ul]:space-y-0.5 p-0">
+
+          <!-- class list -->
+          <div class="divider text-base-content/50 py-6 after:border-0">Classes</div>
+          <!-- Menu des classes (dynamique) -->
+          {% if user.is_authenticated %}
+            {% for classe in classes %}
+              <li>
+                <!-- Bouton pour ouvrir un overlay pour chaque classe -->
+                <button type="button" class="btn btn-primary" aria-haspopup="dialog" aria-expanded="false" aria-controls="overlay-class-{{ classe.idClasse.idClasse }}" data-overlay="#overlay-class-{{ classe.idClasse.idClasse }}">
+                  {{ classe.idClasse.Filiere }} {{ classe.idClasse.niveau }}
+                </button>
+
+                <!-- Overlay de la classe -->
+                <div id="overlay-class-{{ classe.idClasse.idClasse }}" class="overlay w-3/4 overlay-open:translate-x-0 drawer drawer-end h-auto hidden transition-all duration-300" role="dialog" tabindex="-1">
+                  <div class="drawer-header py-4 px-6 border-b flex justify-between items-center">
+                    <h3 class="drawer-title text-lg font-bold">{{ classe.idClasse.Filiere }} {{ classe.idClasse.niveau }}</h3>
+                    <button type="button" class="btn btn-text btn-circle btn-sm absolute end-3 top-3" aria-label="Close" data-overlay="#overlay-class-{{ classe.idClasse.idClasse }}">
+                      <span class="icon-[tabler--x] size-5"></span>
+                    </button>
+                  </div>
+                  <div class="drawer-body py-4 px-6 space-y-4">
+                      <p class=" text-gray-600">
+                          Informations spécifiques à {{ classe.idClasse.Filiere }} - {{ classe.idClasse.niveau }}.
+                          Vous pouvez ajouter du texte, des images, ou d'autres éléments interactifs ici.
+                      </p>
+                  </div>
+
+                  <div class="drawer-footer py-4 px-6 border-t flex justify-end space-x-2">
+                      <button type="button" class="btn btn-soft btn-secondary" data-overlay="#overlay-class-{{ classe.idClasse.id }}">Close</button>
+                      <button type="button" class="btn btn-primary">Save changes</button>
+                  </div>
+
+
+
+                </div>
+              </li>
+            {% endfor %}
+          {% endif %}
+
+          <!-- Divider: Account -->
+          <div class="divider text-base-content/50 py-6 after:border-0">Account</div>
+
+          <li>
+            <a href="{% url 'login' %}">
+              <span class="icon-[tabler--login] size-5"></span>
+              Sign In
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'logout' %}">
+              <span class="icon-[tabler--logout-2] size-5"></span>
+              Sign Out
+            </a>
+          </li>
+
+        </ul>
+      </div>
+    </aside>
+        <p> Hello professeur {{user.username}}  </p>
+        <p> Welcomme to your workspace at the IISTI listing site </p>
+{% endblock %}
