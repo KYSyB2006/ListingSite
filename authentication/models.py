@@ -16,8 +16,6 @@ class Userlisting(AbstractUser):
         return self.username
 
     def save(self, *args, **kwargs):
-            if self.id is None or self.has_usable_password():
-                self.set_password(self.password)
             if self.role == 'IADMINISTRATOR' or self.role == '':
                self.is_superuser = True
                self.is_staff = True

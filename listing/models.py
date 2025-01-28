@@ -54,15 +54,14 @@ class Dispenser(models.Model):
 
 
 class Note(models.Model):
-    class N_Eval(models.TextChoices):
-        Evaluation_1 = 'Eval_1'
-        Evaluation_2 = 'Eval_2'
-        Evaluation_3 = 'Eval_3'
+    class N_Eval(models.IntegerChoices):
+        Evaluation_1 = 1
+        Evaluation_2 = 2
+        Evaluation_3 = 3
 
-    idClasse = models.ForeignKey(Classe, related_name='note', default='iuc', on_delete=models.CASCADE)
     idEtudiant = models.ForeignKey(Etudiant, on_delete=models.CASCADE)
     idMatiere = models.ForeignKey(Matiere, on_delete=models.CASCADE)
-    n_Eval = models.fields.TextField(choices=N_Eval.choices, default='0')
+    n_Eval = models.fields.IntegerField(choices=N_Eval.choices, default=0)
     valeur = models.fields.FloatField(validators=[MinValueValidator(0), MaxValueValidator(20)], default=0)
     remarques = models.fields.TextField(max_length=100, default="la reussite s'arrache")
     dateEval = models.fields.DateTimeField()
