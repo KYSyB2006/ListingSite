@@ -14,14 +14,12 @@ def loginSite(request, msg=None):
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             user = authenticate(request, username=username, password=password)
-            print(user.role)
             if user is not None:
                 if user.role == 'PROFESSEUR':
                     login(request, user)
                     return redirect("EnseignantSpace")
                 elif user.role== 'ETUDIANT':
-                    etudiant= get_object_or_404(Etudiant, Matricule=user.Matricule)
-                    login(request, etudiant)
+                    login(request, user)
                     return redirect('EtudiantSpace')
                 else:
                     return redirect('admin:index')

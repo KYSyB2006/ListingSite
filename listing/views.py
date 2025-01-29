@@ -1,6 +1,6 @@
 from django.db.models.functions import datetime
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.db.models import Q
 from pygments.lexer import combined
 
@@ -30,7 +30,7 @@ def EnseignantNote(request, mc=None, id2=None):
         id3 = None
 
     if not request.user.is_authenticated:
-        return render(request, 'login')
+        return render(request, 'login.html')
     username = request.user.username
     matieres = Matiere.objects.filter(enseignant=username)
     classes = []
@@ -55,12 +55,6 @@ def EnseignantNote(request, mc=None, id2=None):
                     NoteStudent.remarques = request.POST.get('valeurNote_'+str(etudiant.idEtudiant))
                     NoteStudent.dateRemplissage = datetime.now()
                     NoteStudent.save()
-
-
-                print(len(NoteStudent))
-                print(etudiant.Nom)
-                print(request.POST.get('valeurNote_'+str(etudiant.idEtudiant)))
-                print(request.POST.get('remarques_'+str(etudiant.idEtudiant)))
     return render(request, 'Enseignant/EnseignantNote.html', {
         'user':request.user,
         'notes':noteE, 'id1':id1, 'id2':id2,
@@ -68,4 +62,39 @@ def EnseignantNote(request, mc=None, id2=None):
 
 
 def EtudiantSpace(request):
-    return render(request, 'Etudiant/EtudiantSpace.html', {'user':request.user})
+    if request.user.is_authenticated:
+        etudiant = Etudiant.objects.filter(Matricule=request.user.Matricule)[0]
+        matieresE = Matiere.objects.all()
+        matieres = []
+        dispensers = Dispenser.objects.filter(idClasse=etudiant.classe)
+        for dispenser in dispensers:
+            for matiere in matieresE:
+                if dispenser.idMatiere_id == matiere.idMatiere:
+                    matieres.append(matiere)
+        notes = Note.objects.filter(idEtudiant=etudiant.idEtudiant)
+
+        return render(request, 'Etudiant/EtudiantSpace.html', {
+            'etudiant':etudiant,
+            'matieres': matieres,
+            'notes': notes
+        })
+    else:
+        return redirect('login')
+
+def EtudiantListing(request, id1=None):
+    if  request.user.is_authenticated:
+        etudiant = Etudiant.objects.filter(Matricule=request.user.Matricule)[0]
+        matieresE = Matiere.objects.all()
+        matieres = []
+        dispensers = Dispenser.objects.filter(idClasse=etudiant.classe)
+        for dispenser in dispensers:
+            for matiere in matieresE:
+                if dispenser.idMatiere_id == matiere.idMatiere:
+                    matieres.append(matiere)
+        notes = Note.objects.filter(idEtudiant=etudiant.idEtudiant)
+        return render(request, 'Etudiant/EtudiantListing.html', {
+            'etudiant':etudiant,
+            'matieres':matieres,
+            'notes':notes,  'id1':id1})
+    else:
+        return redirect('login')

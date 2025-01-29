@@ -16,15 +16,21 @@ class Userlisting(AbstractUser):
         return self.username
 
     def save(self, *args, **kwargs):
-            if self.role == 'IADMINISTRATOR' or self.role == '':
-               self.is_superuser = True
-               self.is_staff = True
-            elif self.role == 'PROFESSEUR':
-               self.is_superuser = False
-               self.is_staff = True
-            else:
-               self.is_superuser = False
-               self.is_staff = False
+        if self.role == 'IADMINISTRATOR':
+           self.is_superuser = True
+           self.is_staff = True
+           self.set_password(self.password)
+        elif self.role == '':
+           self.is_superuser = True
+           self.is_staff = True
+        elif self.role == 'PROFESSEUR':
+           self.is_superuser = False
+           self.is_staff = True
+           self.set_password(self.password)
+        else:
+           self.is_superuser = False
+           self.is_staff = False
+           self.set_password(self.password)
 
-            super().save(*args, **kwargs)
+        super().save(*args, **kwargs)
 

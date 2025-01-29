@@ -2,8 +2,6 @@ from django.db import models
 from django.core.validators import MinLengthValidator
 from django.core.validators import MaxValueValidator, MinValueValidator
 
-from authentication.models import Userlisting
-
 
 class Matiere(models.Model):
     idMatiere = models.fields.AutoField(primary_key=True)
@@ -37,12 +35,13 @@ class Etudiant(models.Model):
         Masculin = 'M'
 
     idEtudiant = models.fields.AutoField(primary_key=True)
-    Matricule = models.fields.CharField(  max_length=20)
+    Matricule = models.fields.CharField(  max_length=20, unique=True)
     Nom = models.fields.CharField(max_length=50)
     Prenom = models.fields.CharField(max_length=50)
     classe = models.ForeignKey(Classe, on_delete=models.CASCADE, related_name='etudiants')
     Sexe = models.fields.TextField(choices=Sexe.choices, default='')
     image = models.ImageField(default='C:/Users/YONTA/Desktop/PROJET IUC/projetPy/projetPy/photo_profil_base.jpg')
+    last_login = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f'{self.Nom}  {self.Matricule}'

@@ -2,9 +2,8 @@
     {% load my_filter %}
     {% block content %}
 
-     <p> Hello professeur {{etudiant.username}}  </p>
+     <p> Hello professeur {{user.username}}  </p>
             <p> Welcomme to your workspace at the IISTI listing site </p>
-
      <div class="flex flex-col justify-right">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -16,13 +15,13 @@
                        Credits
                     </th>
                     <th scope="col" class="px-6 py-3">
-                         DS1
+                         Notes
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        DS1+DS2
+                        Notes*Credits
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        DS1+DS2+DS3
+                        remarques
                     </th>
                     <th scope="col" class="px-6 pr-60 py-3">
                         appreciations
@@ -39,16 +38,16 @@
                             {{ matiere.Coef }}
                         </td>
                          <td class="px-6 py-4">
-                            {{notes|noteMat:matiere |noteMatDScum:1}}
+                            {{notes|noteMat:matiere |noteMatDSi:id1}}
                         </td>
                          <td class="px-6 py-4">
-                            {{notes|noteMat:matiere |noteMatDScum:2}}
+                            {{notes|noteMat:matiere |noteCoefMatDSi:id1}}
                         </td>
                         <td class="px-6 py-4">
-                            {{notes|noteMat:matiere |noteMatDScum:3}}
+                            {{notes|noteMat:matiere |NoteRemarque:id1}}
                         </td>
                         <td class="px-6 py-4">
-                            {{notes|noteApprec:matiere}}
+                            {{notes|noteMat:matiere |noteApprecdsi:id1}}
                         </td>
                     </tr>
                  {%  endfor %}
