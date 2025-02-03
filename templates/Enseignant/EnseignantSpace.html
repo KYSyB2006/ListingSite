@@ -2,7 +2,8 @@
 {% load my_filter %}
 {% block content %}
 
-
+        <p> Hello professeur {{user.username}}  </p>
+        <p> Welcomme to your workspace at the IISTI listing site </p>a
         <div class="divider text-base-content/50 py-6 after:border-0">Classes</div>
               <ul class="space-y-2 font-medium">
                   {% if user.is_authenticated %}
@@ -16,7 +17,6 @@
                                <span class="ms-3">{{ classe.idClasse.Filiere }} {{ classe.idClasse.niveau }} - {{classe.idMatiere.Id_UE}} </span>
                             </a>
                          </li>
-
                     {% endfor %}
                   {% endif %}
               </ul>

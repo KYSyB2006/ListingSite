@@ -1,13 +1,14 @@
-from django.db.models.functions import datetime
+from datetime import datetime
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.db.models import Q
-from pygments.lexer import combined
+from .decorators import role_required, etudiant_required
 
 from listing.models import Dispenser, Matiere, Classe, Etudiant, Note
 from authentication.models import Userlisting
 
 # Create your views here.
+@role_required(['IADMINISTRATOR', 'PROFESSEUR'])
 def EnseignantSpace(request):
     if request.user.is_authenticated:
         username = request.user.username
@@ -21,6 +22,7 @@ def EnseignantSpace(request):
     return HttpResponse("Unauthorized", status=401)
 
 
+@role_required(['IADMINISTRATOR', 'PROFESSEUR'])
 def EnseignantNote(request, mc=None, id2=None):
     if len(mc) > 1:
         id1 = mc[1]
@@ -49,18 +51,19 @@ def EnseignantNote(request, mc=None, id2=None):
                 valeur= request.POST.get('valeurNote_' + str(etudiant.idEtudiant))
                 remarque=request.POST.get('remarques_' + str(etudiant.idEtudiant))
                 if len(NoteStudent) == 0 :
-                    Note.objects.create(idEtudiant=etudiant.idEtudiant, idMatiere=id3, n_Eval=id2, valeur=valeur, remarques=remarque, dateEval='2024-11-12 12:00:00.000000', dateRemplissage= datetime.now())
+                    Note.objects.create(idEtudiant=etudiant, idMatiere=Matiere.objects.filter(idMatiere=id3)[0], n_Eval=id2, valeur=valeur, remarques=remarque, dateEval='2024-11-12 12:00:00.000000', dateRemplissage= datetime.now())
                 else:
                     NoteStudent.valeur = request.POST.get('valeurNote_'+str(etudiant.idEtudiant))
                     NoteStudent.remarques = request.POST.get('valeurNote_'+str(etudiant.idEtudiant))
                     NoteStudent.dateRemplissage = datetime.now()
-                    NoteStudent.save()
+                    NoteStudent.update()
     return render(request, 'Enseignant/EnseignantNote.html', {
         'user':request.user,
         'notes':noteE, 'id1':id1, 'id2':id2,
         'etudiants':etudiantClasse, 'classes': classes, 'matieres': matieres})
 
 
+@etudiant_required(['IADMINISTRATOR', 'PROFESSEUR'])
 def EtudiantSpace(request):
     if request.user.is_authenticated:
         etudiant = Etudiant.objects.filter(Matricule=request.user.Matricule)[0]
@@ -81,6 +84,7 @@ def EtudiantSpace(request):
     else:
         return redirect('login')
 
+@etudiant_required(['IADMINISTRATOR', 'PROFESSEUR'])
 def EtudiantListing(request, id1=None):
     if  request.user.is_authenticated:
         etudiant = Etudiant.objects.filter(Matricule=request.user.Matricule)[0]
@@ -95,6 +99,6 @@ def EtudiantListing(request, id1=None):
         return render(request, 'Etudiant/EtudiantListing.html', {
             'etudiant':etudiant,
             'matieres':matieres,
-            'notes':notes,  'id1':id1})
+            'notes':notes, 'id1':id1})
     else:
         return redirect('login')

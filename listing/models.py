@@ -61,7 +61,7 @@ class Note(models.Model):
     idEtudiant = models.ForeignKey(Etudiant, on_delete=models.CASCADE)
     idMatiere = models.ForeignKey(Matiere, on_delete=models.CASCADE)
     n_Eval = models.fields.IntegerField(choices=N_Eval.choices, default=0)
-    valeur = models.fields.FloatField(validators=[MinValueValidator(0), MaxValueValidator(20)], default=0)
+    valeur = models.fields.FloatField(validators=[MinValueValidator(0), MaxValueValidator(20)], null=True, blank=True)
     remarques = models.fields.TextField(max_length=100, default="la reussite s'arrache")
     dateEval = models.fields.DateTimeField()
     dateRemplissage = models.fields.DateTimeField()
